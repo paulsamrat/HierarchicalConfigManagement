@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,20 +31,26 @@ public class EurekaServiceInstanceController {
 	@Autowired
 	private DiscoveryClient discoveryClient;
 	
+	@Autowired
+	private LoadBalancerClient lbClient;
+	
 	
 	@Produces(javax.ws.rs.core.MediaType.APPLICATION_JSON)
 	@RequestMapping(value="/services" , method= RequestMethod.GET)
 	public String getRegisteredService(){
 		final String methodName = "getRegisteredService";
 		LOG.info(CLASS_NAME + "." + methodName + " *** Entry *** ");
-		String serviceName = "";
+		String server = "";
 		try{
-			serviceName =  discoveryClient.getLocalServiceInstance().getServiceId();
+//			List<ServiceInstance> serviceInstances=  discoveryClient.getInstances("HierarchicalConfigManagement-Client");
+//			System.out.println(serviceInstances);
+			ServiceInstance serviceInstance= lbClient.choose("HierarchicalConfigManagement-Client");
+			server = serviceInstance.toString();
 		}catch(Exception e){
 			LOG.error("Exception occured while fetching  registered service {}" , e);
 		}
 		LOG.info(CLASS_NAME + "." + methodName + " *** Exit *** ");
-		return serviceName;
+		return server;
 	}
 	
 	
