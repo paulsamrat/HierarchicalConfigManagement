@@ -14,23 +14,23 @@ public interface IConfigManagementService {
 	
 	public ServiceResponse fetchAllGlobalConfigurations();
 	
-	public ServiceResponse fetchAllFIConfigurations();
+	public ServiceResponse fetchAllFIConfigurations(String fiId);
 
-	public ServiceResponse fetchAllUserConfigurations();
+	public ServiceResponse fetchAllUserConfigurations(String fiId, String userId);
 
 	
 	
 	public ServiceResponse updateGlobalConfiguration(String keyName);
 	
-	public ServiceResponse updateFIConfiguration(String docId);
+	public ServiceResponse updateFIConfiguration(String fiId, String keyName);
 
-	public ServiceResponse updateUserConfiguration(String keyName);
+	public ServiceResponse updateUserConfiguration(String fiId, String userId, String keyName);
 
 	
 	
 	public ServiceResponse fetchGlobalConfiguration(String keyName);
 
-	public ServiceResponse fetchFIConfiguration(String keyName);
+	public ServiceResponse fetchFIConfiguration(String fiId, String keyName);
 
 	public ServiceResponse fetchUserConfiguration(String userId, String fiId, String keyName);
 	

@@ -15,7 +15,11 @@ public class ServiceResponse {
 	private String responseMsg;
 	
 	private List<CouchbaseConfigEntry> resultList;
-
+	
+	private String ip;
+	
+	private int port;
+	
 	/**
 	 * default
 	 */
@@ -44,6 +48,12 @@ public class ServiceResponse {
 		this.responseMsg = responseMsg;
 	}
 	
+	public ServiceResponse(boolean isSuccessful,String ip, int port) {
+		super();
+		this.isSuccessful = isSuccessful;
+		this.ip = ip;
+		this.port = port;
+	}
 	
 	/**
 	 * @return the isSuccessful
@@ -115,6 +125,37 @@ public class ServiceResponse {
 		this.resultList = resultList;
 	}
 	
+	/**
+	 * @return the ip
+	 */
+	public String getIp() {
+		return ip;
+	}
+
+	/**
+	 * @param ip the ip to set
+	 */
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	/**
+	 * @return the port
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * @param port the port to set
+	 */
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -124,13 +165,14 @@ public class ServiceResponse {
 		if (errors != null)
 			builder.append("errors=").append(errors).append(", ");
 		if (responseMsg != null)
-			builder.append("responseMsg=").append(responseMsg);
+			builder.append("responseMsg=").append(responseMsg).append(", ");
 		if (resultList != null)
-			builder.append("resultList=").append(resultList);
-		builder.append("]");
+			builder.append("resultList=").append(resultList).append(", ");
+		if (ip != null)
+			builder.append("ip=").append(ip).append(", ");
+		builder.append("port=").append(port).append("]");
 		return builder.toString();
-	}
-
 	
+	}	
 	
 }

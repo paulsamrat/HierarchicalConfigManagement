@@ -1,0 +1,4 @@
+com/di/config/management/eureka/tests/TestEurekaServiceConfigurations.class
+com/di/config/management/controller/tests/TestUserConfigManagementController.class
+com/di/config/management/controller/tests/TestGlobalConfigManagementController.class
+com/di/config/management/controller/tests/TestFiConfigManagementController.class

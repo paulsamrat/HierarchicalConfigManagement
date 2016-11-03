@@ -38,10 +38,10 @@ public class ConfigManagementCouchBaseDAOImpl implements IConfigManagementCouchB
 	}
 	
 	@Override
-	public List<CouchbaseConfigEntry> fetchAllConfigurations(String spaceId) throws CouchbaseQueryExecutionException {
+	public List<CouchbaseConfigEntry> fetchAllConfigurations(String docId) throws CouchbaseQueryExecutionException {
 		final String methodName = "fetchAllConfigurations";
 		LOG.info(CLASS_NAME + "." + methodName + " *** Entry ***");
-		return null;//couchbaseConfigEntryRepository.findByFieldStartingWith(spaceId);
+		return couchbaseConfigEntryRepository.findByDocIdLike(docId);
 	}
 
 
@@ -54,9 +54,11 @@ public class ConfigManagementCouchBaseDAOImpl implements IConfigManagementCouchB
 
 
 	@Override
-	public void updateConfiguration(String docId) throws CouchbaseQueryExecutionException,DocumentDoesNotExistException,CASMismatchException {
+	public void updateConfiguration(CouchbaseConfigEntry couchbaseConfigEntry) throws CouchbaseQueryExecutionException,DocumentDoesNotExistException,CASMismatchException {
 		final String methodName = "updateConfiguration";
 		LOG.info(CLASS_NAME + "." + methodName + " *** Entry ***");
+		couchbaseConfigEntryRepository.save(couchbaseConfigEntry);
+		LOG.info(CLASS_NAME + "." + methodName + " *** Exit ***");
 	}
 
 }

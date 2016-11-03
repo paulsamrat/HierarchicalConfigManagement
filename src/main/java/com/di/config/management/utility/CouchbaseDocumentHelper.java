@@ -28,11 +28,11 @@ public class CouchbaseDocumentHelper {
 		return couchbaseConfigEntry;
 	}
 	
-	public String generateDocId(String spaceId , String userId , String fiId, String keyName){
+	public String generateDocId(String spaceId , String fiId, String userId ,  String keyName){
 		final String methodName = "generateDocId";
 		LOG.info(CLASS_NAME + "." + methodName + " *** Entry *** Parameters : spaceId : {}, userId : {}, fiId :{} , keyName:{} ", spaceId, userId, fiId , keyName );
-		String docId = new StringBuilder().append(spaceId).append(":").append(null != userId ? userId : "")
-				.append(null != fiId ? fiId : "").append(null != keyName ? keyName : "").toString();
+		String docId = new StringBuilder().append(spaceId).append(":").append(null != fiId ? fiId : "")
+				.append(null != userId ? userId : "").append(null != keyName ? keyName : "").toString();
 		LOG.info(CLASS_NAME + "." + methodName + " *** Exit ***  CouchBaseServer  document id  formed  " +  docId);
 		return docId;
 	}

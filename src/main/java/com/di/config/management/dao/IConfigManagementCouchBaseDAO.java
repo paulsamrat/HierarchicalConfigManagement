@@ -14,6 +14,6 @@ public interface IConfigManagementCouchBaseDAO {
 	
 	public CouchbaseConfigEntry fetchConfiguration(String docId) throws CouchbaseQueryExecutionException;
 
-	public void updateConfiguration(String docId) throws CouchbaseQueryExecutionException;	
+	public void updateConfiguration(CouchbaseConfigEntry couchbaseConfigEntry) throws CouchbaseQueryExecutionException;	
 	
 }

@@ -50,7 +50,7 @@ public class FIConfigManagementController {
 		
 		final String methodName = "getAllConfigurationsFromFISpace";
 		LOG.info(CLASS_NAME+"."+methodName + "  Entry : Configuration  Parameters  : FiID {}" , fiId );			
-		response = configService.fetchAllFIConfigurations();
+		response = configService.fetchAllFIConfigurations(fiId);
 		LOG.info(CLASS_NAME+"." + methodName + "Exit : Service Response {}", response);
 		return response;
 	}	
@@ -61,7 +61,7 @@ public class FIConfigManagementController {
 		
 		final String methodName = "getConfigEntryFromFISpace";
 		LOG.info(CLASS_NAME+"."+methodName + "  Entry : Configuration  Parameters  : FiID , KeyName {} {} " , fiId , keyName );
-		response = configService.fetchFIConfiguration(keyName);
+		response = configService.fetchFIConfiguration(fiId,keyName);
 		LOG.info(CLASS_NAME+"." + methodName + "Exit : Service Response {}", response);
 		return response;
 	}
@@ -72,7 +72,7 @@ public class FIConfigManagementController {
 		
 		final String methodName = "updateConfigEntryInFISpace";
 		LOG.info(CLASS_NAME+"."+methodName + "  Entry : Configuration  Parameters  : FiID , KeyName {} {} " , fiId , keyName );
-		response = configService.updateFIConfiguration("");
+		response = configService.updateFIConfiguration(fiId,keyName);
 		LOG.info(CLASS_NAME+"." + methodName + "Exit : Service Response {}", response);
 		return response;
 	}

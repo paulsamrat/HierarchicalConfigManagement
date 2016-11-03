@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +17,8 @@ import com.di.config.management.entity.ConfigEntry;
 import com.di.config.management.entity.ServiceResponse;
 
 public class TestUserConfigManagementController {
-private static final String SERVER_PATH =  "http://127.0.0.1:8761/user";
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TestUserConfigManagementController.class);
 	
 	private static RestTemplate restTemplate ;
 	
@@ -22,6 +26,8 @@ private static final String SERVER_PATH =  "http://127.0.0.1:8761/user";
 	
 	private static Map<String,String> uriVariables = new HashMap<String,String>();
 	
+    private ServiceResponse serviceResponse = null;
+
 	@BeforeClass
 	public static void setUp(){
 	    restTemplate = new RestTemplate();
@@ -33,30 +39,36 @@ private static final String SERVER_PATH =  "http://127.0.0.1:8761/user";
 	    
 	}
 	
-	@Test
+	@Before
+	public void loadBalancedServerSetUp(){
+		serviceResponse = restTemplate.getForObject("http://127.0.0.1:9000/ribbons/getLoadBalancedServer", ServiceResponse.class);
+		LOG.info("load balanced server :" + serviceResponse);
+	}
+	
+	//@Test
 	public void testCreateConfigurationInUserSpace(){
 		System.out.println(" testCreateConfigurationInUserSpace Entry");
-		String uri = SERVER_PATH+"/{userId}/{fiId}/configEntries";
+		String uri = "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+ "/user/{fiId}/{userId}/configEntries";
 		ServiceResponse response = restTemplate.postForObject(uri, configEntry, ServiceResponse.class, uriVariables);
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response.isSuccessful(), true);
 		System.out.println("testCreateConfigurationInUserSpace Exit Response : " + response);
 	}
 	
-	@Test
+	//@Test
 	public void testGetAllConfigurationsFromUserSpace(){
 		System.out.println(" testGetAllConfigurationsFromUserSpace Entry");
-		String uri = SERVER_PATH+"/{userId}/{fiId}/configEntries";
+		String uri =  "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+ "/user/{fiId}/{userId}/configEntries";
 		ServiceResponse response = restTemplate.getForObject(uri, ServiceResponse.class, uriVariables);
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response.isSuccessful(), true);
 		System.out.println("testGetAllConfigurationsFromUserSpace Exit Response : " + response);
-	}
+	}	
 	
-	@Test
+	//@Test
 	public void testGetConfigEntryFromUserSpace() {
 		System.out.println(" testGetConfigEntryFromUserSpace Entry");
-		String uri = SERVER_PATH+"/{userId}/{fiId}/configEntries/{keyName}";
+		String uri = "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+ "/user/{fiId}/{userId}/configEntries/{keyName}";
 		ServiceResponse response = restTemplate.getForObject(uri, ServiceResponse.class, uriVariables);
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response.isSuccessful(), true);
@@ -66,7 +78,7 @@ private static final String SERVER_PATH =  "http://127.0.0.1:8761/user";
 	@Test
 	public void testUpdateConfigEntryInUserSpace() {
 		System.out.println(" testUpdateConfigEntryInUserSpace Entry");
-		String uri = SERVER_PATH+"/{userId}/{fiId}/configEntries/{keyName}";
+		String uri =  "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+ "/user/{fiId}/{userId}/configEntries/{keyName}";
 		ResponseEntity<ServiceResponse> response = restTemplate.exchange(uri, HttpMethod.PUT, null,ServiceResponse.class, uriVariables);
 		Assert.assertNotNull(response);
 		Assert.assertEquals(response.getStatusCode().is2xxSuccessful(), true);

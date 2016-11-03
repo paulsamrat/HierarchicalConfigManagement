@@ -29,9 +29,11 @@ public class UserConfigManagementController {
 	@Autowired
 	private IConfigManagementService configService;
 	
-	@RequestMapping(value="/{userId}/{fiId}/configEntries" , method=RequestMethod.POST)
-	public ServiceResponse createConfigurationInUserSpace(@PathVariable(name = "userId", required = true) String userId,
-			@PathVariable(name = "fiId", required = true) String fiId, @RequestBody ConfigEntry configEntry,
+	@RequestMapping(value="/{fiId}/{userId}/configEntries" , method=RequestMethod.POST)
+	public ServiceResponse createConfigurationInUserSpace(
+			@PathVariable(name = "fiId", required = true) String fiId,
+			@PathVariable(name = "userId", required = true) String userId,
+			@RequestBody ConfigEntry configEntry,
 			BindingResult result) {
 		
 		final String methodName = "createConfigurationInUserSpace";
@@ -50,22 +52,22 @@ public class UserConfigManagementController {
 		return response;
 	}
 	
-	@RequestMapping(value="/{userId}/{fiId}/configEntries" , method=RequestMethod.GET)
+	@RequestMapping(value="/{fiId}/{userId}/configEntries" , method=RequestMethod.GET)
 	public ServiceResponse getAllConfigurationsFromUserSpace(
-			@PathVariable(name = "userId", required = true) String userId,
-			@PathVariable(name = "fiId", required = true) String fiId) {
+			@PathVariable(name = "fiId", required = true) String fiId, 
+			@PathVariable(name = "userId", required = true) String userId){
 		
 		final String methodName = "getAllConfigurationsFromUserSpace";
 		LOG.info(CLASS_NAME+"."+methodName + "  Entry : Configuration  Parameters  : UserId,FiID {} {} " , userId, fiId );
-		response = configService.fetchAllUserConfigurations();
+		response = configService.fetchAllUserConfigurations(fiId,userId);
 		LOG.info(CLASS_NAME+"." + methodName + "Exit : Service Response {}", response);
 		return response;
 	}
 		
-	@RequestMapping(value="/{userId}/{fiId}/configEntries/{keyName}" , method=RequestMethod.GET)
+	@RequestMapping(value="/{fiId}/{userId}/configEntries/{keyName}" , method=RequestMethod.GET)
 	public ServiceResponse getConfigEntryFromUserSpace(
-			@PathVariable(name = "userId", required = true) String userId,
 			@PathVariable(name = "fiId", required = true) String fiId,
+			@PathVariable(name = "userId", required = true) String userId,
 			@PathVariable(name = "keyName", required = true) String keyName) {
 		
 		final String methodName = "getConfigEntryFromUserSpace";
@@ -80,10 +82,10 @@ public class UserConfigManagementController {
 		return response;
 	}
 	
-	@RequestMapping(value="/{userId}/{fiId}/configEntries/{keyName}" , method=RequestMethod.PUT)
+	@RequestMapping(value="/{fiId}/{userId}/configEntries/{keyName}" , method=RequestMethod.PUT)
 	public ServiceResponse updateConfigEntryInUserSpace(
-			@PathVariable(name = "userId", required = true) String userId,
 			@PathVariable(name = "fiId", required = true) String fiId,
+			@PathVariable(name = "userId", required = true) String userId,
 			@PathVariable(name = "keyName", required = true) String keyName) {
 		
 		final String methodName = "updateConfigEntryInUserSpace";
@@ -91,7 +93,7 @@ public class UserConfigManagementController {
 				CLASS_NAME + "." + methodName
 						+ "  Entry : Configuration  Parameters  : UserId , FiID , KeyName {} {} {}",
 				userId, fiId, keyName);		
-			response = configService.updateUserConfiguration(keyName);
+			response = configService.updateUserConfiguration(fiId, userId,keyName);
 		LOG.info(CLASS_NAME+"." + methodName + "Exit : Service Response {}", response);
 		return response;
 	}

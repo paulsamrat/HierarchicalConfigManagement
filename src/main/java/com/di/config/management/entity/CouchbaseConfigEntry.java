@@ -21,6 +21,8 @@ public class CouchbaseConfigEntry {
 	@NotNull
 	private String value;
 	
+	public CouchbaseConfigEntry(){}
+	
 	public CouchbaseConfigEntry(String docId, String keyName, String value) {
 		super();
 		this.docId = docId;
@@ -40,7 +42,21 @@ public class CouchbaseConfigEntry {
 	public String getValue() {
 		return value;
 	}
+	
+	/**
+	 * @param keyName the keyName to set
+	 */
+	public void setKeyName(String keyName) {
+		this.keyName = keyName;
+	}
 
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -54,6 +70,8 @@ public class CouchbaseConfigEntry {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
 
 	
 }
