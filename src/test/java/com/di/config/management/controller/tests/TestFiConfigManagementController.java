@@ -65,7 +65,7 @@ public class TestFiConfigManagementController {
 		serviceResponse = restTemplate.getForObject("http://127.0.0.1:9000/ribbons/getLoadBalancedServer", ServiceResponse.class);
 	}
 	
-	@Test
+	//@Test
 	public void testCreateConfigurationInFISpace(){
 		System.out.println(" testCreateConfigurationInFISpace Entry");
 		String uri = "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+ "/fis/{fiId}/configEntries";
@@ -86,7 +86,7 @@ public class TestFiConfigManagementController {
 		System.out.println("testGetAllConfigurationsFromFISpace Exit Response : " + response);
 	}
 	
-	//@Test
+	@Test
 	public void testGetConfigEntryFromFISpace() {
 		System.out.println(" testGetConfigEntryFromFISpace Entry");
 		String uri =  "http://"+ serviceResponse.getIp()+":" +serviceResponse.getPort()+"/fis/{fiId}/configEntries/{keyName}";

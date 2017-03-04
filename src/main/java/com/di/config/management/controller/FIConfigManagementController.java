@@ -1,8 +1,11 @@
 package com.di.config.management.controller;
 
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +32,9 @@ public class FIConfigManagementController {
 	@Autowired
 	private IConfigManagementService configService;
 	
+	@Autowired
+	private ReloadableResourceBundleMessageSource messageSource;
+	
 	@RequestMapping(value="/{fiId}/configEntries" , method=RequestMethod.POST)
 	public ServiceResponse createConfigurationInFISpace(@PathVariable(name="fiId" , required = true ) String fiId , 
 			@RequestBody ConfigEntry configEntry , BindingResult result) {
@@ -47,7 +53,7 @@ public class FIConfigManagementController {
 	
 	@RequestMapping(value="/{fiId}/configEntries" , method=RequestMethod.GET)
 	public ServiceResponse getAllConfigurationsFromFISpace(@PathVariable(name="fiId" , required = true ) String fiId ){
-		
+		//System.out.println("result" + messageSource.getMessage("spring.application.name", null, Locale.getDefault()));
 		final String methodName = "getAllConfigurationsFromFISpace";
 		LOG.info(CLASS_NAME+"."+methodName + "  Entry : Configuration  Parameters  : FiID {}" , fiId );			
 		response = configService.fetchAllFIConfigurations(fiId);
